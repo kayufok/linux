@@ -1,0 +1,13 @@
+# Linux Setup Environment Script / Command
+
+##### Initial Server Setup
+- Setup User account
+- Update System
+- Two Factor Login (Password and SSH)
+
+##### Progams Installation
+- Docker.sh ( In Progress )
+
+###### Git Pull Force
+1. git fetch --all
+2. git reset --hard origin/master
