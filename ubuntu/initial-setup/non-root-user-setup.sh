@@ -35,3 +35,4 @@ sed -i 's/PermitRootLogin yes/PermitRootLogin no/g' /etc/ssh/sshd_config;
 sudo systemctl start sshd;
 
 sudo systemctl reload sshd;
+
