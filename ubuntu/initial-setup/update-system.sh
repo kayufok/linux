@@ -4,6 +4,7 @@
 #   1. updates the list of available packages and their versions
 #   2. installs newer versions of the packages
 #   3. Setup ufw
+#   4. Change SSH default port to 915
 #
 ###########################################################################
 
@@ -21,7 +22,21 @@ sudo ufw default allow outgoing
 sudo ufw allow ssh
 sudo ufw enable
 
-# 4. Setup fail2ban to block IPs after failed attempts
+# 4. Change SSH default port to 915
+# Backup the SSH configuration file
+sudo cp /etc/ssh/sshd_config /etc/ssh/sshd_config.bak
+
+# Modify the SSH configuration file to change the port
+sudo sed -i 's/^#Port 22/Port 915/' /etc/ssh/sshd_config
+
+# Allow the new SSH port through UFW and remove the old rule
+sudo ufw allow 915/tcp
+sudo ufw delete allow ssh
+
+# Restart SSH service to apply the new configuration
+sudo systemctl restart ssh
+
+# 5. Setup fail2ban to block IPs after failed attempts
 sudo apt install fail2ban -y
 
 # fail2ban local config
@@ -31,7 +46,7 @@ ignoreip = 127.0.0.1/8 999.999.999.0/24 888.888.888.0/24
 
 [sshd]
 enabled  = true
-port     = ssh
+port     = 915
 filter   = sshd
 logpath  = /var/log/auth.log
 # backend = systemd
